@@ -14,9 +14,7 @@ def spark():
     spark.stop()
 
 
-# -------------------------
-# Test partition logic
-# -------------------------
+
 def test_partition_change(spark):
 
     df = create_df_method1(spark)
@@ -27,9 +25,7 @@ def test_partition_change(spark):
     assert get_partition_count(df_new) == 2
 
 
-# -------------------------
-# Test masking
-# -------------------------
+
 def test_masking(spark):
 
     df = create_df_method1(spark)

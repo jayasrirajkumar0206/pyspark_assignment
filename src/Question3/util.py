@@ -6,9 +6,9 @@ import os
 os.environ["PYSPARK_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 os.environ["PYSPARK_DRIVER_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 
-# -------------------------
+
 # Schema creation
-# -------------------------
+
 def get_schema():
     return StructType([
         StructField("log id", IntegerType(), True),
@@ -18,9 +18,9 @@ def get_schema():
     ])
 
 
-# -------------------------
+
 # Create DataFrame
-# -------------------------
+
 def create_log_df(spark):
 
     data = [
@@ -37,9 +37,9 @@ def create_log_df(spark):
     return spark.createDataFrame(data, get_schema())
 
 
-# -------------------------
+
 # Dynamic column rename
-# -------------------------
+
 def rename_columns_dynamic(df):
 
     new_cols = ["log_id", "user_id", "user_activity", "time_stamp"]
@@ -50,9 +50,9 @@ def rename_columns_dynamic(df):
     return df
 
 
-# -------------------------
+
 # Last 7 days activity
-# -------------------------
+
 def last_7_days_activity(df):
 
     df = df.withColumn(
@@ -66,9 +66,7 @@ def last_7_days_activity(df):
         .agg(count("*").alias("action_count"))
 
 
-# -------------------------
 # Convert timestamp → login_date
-# -------------------------
 def convert_login_date(df):
 
     return df.withColumn(
@@ -77,9 +75,8 @@ def convert_login_date(df):
     )
 
 
-# -------------------------
+
 # Write CSV with options
-# -------------------------
 def write_csv(df, path):
 
     df.write \
@@ -90,9 +87,7 @@ def write_csv(df, path):
         .csv(path)
 
 
-# -------------------------
 # Managed table
-# -------------------------
 def write_managed_table(df):
 
     df.write \

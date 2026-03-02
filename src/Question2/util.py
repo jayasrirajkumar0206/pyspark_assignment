@@ -7,18 +7,17 @@ import os
 os.environ["PYSPARK_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 os.environ["PYSPARK_DRIVER_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 
-# -------------------------
+
 # Schema
-# -------------------------
+
 def get_schema():
     return StructType([
         StructField("card_number", StringType(), True)
     ])
 
 
-# -------------------------
 # Different read methods
-# -------------------------
+
 def create_df_method1(spark):
     data = [
         ("1234567891234567",),
@@ -41,9 +40,9 @@ def create_df_method2(spark):
     return spark.createDataFrame(data).toDF("card_number")
 
 
-# -------------------------
+
 # Partitions
-# -------------------------
+
 def get_partition_count(df):
     return df.rdd.getNumPartitions()
 
@@ -56,9 +55,8 @@ def decrease_partitions(df, num):
     return df.coalesce(num)
 
 
-# -------------------------
+
 # UDF for masking
-# -------------------------
 def mask_card(card):
     if card:
         return "*" * (len(card) - 4) + card[-4:]
@@ -69,9 +67,9 @@ def register_udf(spark):
     return udf(mask_card, StringType())
 
 
-# -------------------------
+
 # Final output
-# -------------------------
+
 def add_masked_column(df, spark):
 
     mask_udf = register_udf(spark)

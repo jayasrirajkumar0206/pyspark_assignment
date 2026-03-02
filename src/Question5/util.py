@@ -6,16 +6,12 @@ os.environ["PYSPARK_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 os.environ["PYSPARK_DRIVER_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 
 
-# -------------------------
 # Dynamic schema generator
-# -------------------------
 def generate_schema(columns):
     return StructType([StructField(c, StringType(), True) for c in columns])
 
 
-# -------------------------
 # Create DataFrames
-# -------------------------
 def create_employee_df(spark):
 
     data = [
@@ -64,18 +60,14 @@ def create_country_df(spark):
     return spark.createDataFrame(data, ["country_code", "country_name"])
 
 
-# -------------------------
 # Avg salary
-# -------------------------
 def avg_salary_department(emp_df):
 
     return emp_df.groupBy("department") \
         .agg(avg("salary").alias("avg_salary"))
 
 
-# -------------------------
 # Employees name starts with m
-# -------------------------
 def employees_m(emp_df, dept_df):
 
     return emp_df.join(
@@ -87,17 +79,13 @@ def employees_m(emp_df, dept_df):
     ).select("employee_name", "dept_name")
 
 
-# -------------------------
 # Bonus column
-# -------------------------
 def add_bonus(emp_df):
 
     return emp_df.withColumn("bonus", col("salary") * 2)
 
 
-# -------------------------
 # Reorder columns
-# -------------------------
 def reorder_columns(emp_df):
 
     return emp_df.select(
@@ -110,9 +98,7 @@ def reorder_columns(emp_df):
     )
 
 
-# -------------------------
 # Join results
-# -------------------------
 def join_results(emp_df, dept_df):
 
     inner_df = emp_df.join(
@@ -136,9 +122,7 @@ def join_results(emp_df, dept_df):
     return inner_df, left_df, right_df
 
 
-# -------------------------
 # Replace state with country
-# -------------------------
 def country_replace(emp_df, country_df):
 
     return emp_df.join(
@@ -155,9 +139,7 @@ def country_replace(emp_df, country_df):
     )
 
 
-# -------------------------
 # Lowercase + load_date
-# -------------------------
 def lowercase_and_load(df):
 
     for c in df.columns:
@@ -166,9 +148,8 @@ def lowercase_and_load(df):
     return df.withColumn("load_date", current_date())
 
 
-# -------------------------
 # External tables
-# -------------------------
+
 def write_external_tables(df, spark, path):
 
     spark.sql("CREATE DATABASE IF NOT EXISTS employee")

@@ -7,16 +7,14 @@ os.environ["PYSPARK_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 os.environ["PYSPARK_DRIVER_PYTHON"] = r"D:\Diggibytes\spark\.venv\Scripts\python.exe"
 
 
-# -------------------------
+
 # Read JSON dynamically
-# -------------------------
+
 def read_json_dynamic(spark, path):
     return spark.read.option("multiline", True).json(path)
 
 
-# -------------------------
 # Flatten JSON (generic)
-# -------------------------
 def flatten_df(df):
 
     flat_cols = [c[0] for c in df.dtypes if c[1] != 'array' and not c[1].startswith('struct')]
@@ -40,16 +38,13 @@ def flatten_df(df):
     return df
 
 
-# -------------------------
 # Count difference
-# -------------------------
 def record_count(df):
     return df.count()
 
 
-# -------------------------
+
 # explode comparison
-# -------------------------
 def explode_demo(df, column):
     return df.select(explode(col(column)))
 
@@ -62,16 +57,12 @@ def posexplode_demo(df, column):
     return df.select(posexplode(col(column)))
 
 
-# -------------------------
 # Filter id
-# -------------------------
 def filter_id(df):
     return df.filter(col("id") == "0001")
 
 
-# -------------------------
 # Camel → snake case
-# -------------------------
 def camel_to_snake(name):
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
@@ -83,16 +74,12 @@ def rename_columns_snake(df):
     return df
 
 
-# -------------------------
 # Add load_date
-# -------------------------
 def add_load_date(df):
     return df.withColumn("load_date", current_date())
 
 
-# -------------------------
 # Create year, month, day
-# -------------------------
 def add_partition_columns(df):
     return df \
         .withColumn("year", col("load_date").substr(1, 4)) \
@@ -100,9 +87,7 @@ def add_partition_columns(df):
         .withColumn("day", col("load_date").substr(9, 2))
 
 
-# -------------------------
 # Write partitioned table
-# -------------------------
 def write_partitioned_table(df, spark):
 
     spark.sql("CREATE DATABASE IF NOT EXISTS employee")
