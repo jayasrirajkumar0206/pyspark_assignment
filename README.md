@@ -1,6 +1,5 @@
 # PySpark Assignment
 
-This repository contains PySpark practice questions covering real-time Data Engineering concepts.
 
 ## Questions Covered
 
